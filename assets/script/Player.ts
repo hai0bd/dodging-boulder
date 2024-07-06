@@ -1,4 +1,4 @@
-import { _decorator, CCFloat, Component, Enum, EventKeyboard, ICollisionEvent, Input, input, KeyCode, Node, SphereCollider, Vec2, Vec3 } from 'cc';
+import { _decorator, CCFloat, Component, EventKeyboard, Input, input, KeyCode, SphereCollider, Vec2, Vec3 } from 'cc';
 import { GameState, Layer } from './Enum';
 import { GameManager } from './GameManager';
 const { ccclass, property } = _decorator;
@@ -20,6 +20,11 @@ export class Player extends Component {
         input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
         input.on(Input.EventType.KEY_PRESSING, this.onKeyDown, this);
         input.on(Input.EventType.KEY_UP, this.onKeyUp, this);
+    }
+    onDisable() {
+        input.off(Input.EventType.KEY_DOWN);
+        input.off(Input.EventType.KEY_PRESSING);
+        input.off(Input.EventType.KEY_UP);
     }
     onKeyDown(event: EventKeyboard) {
         console.log(event.keyCode);

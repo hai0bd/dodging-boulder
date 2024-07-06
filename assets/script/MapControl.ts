@@ -18,6 +18,9 @@ export class MapControl extends Component {
     start() {
         this.playerCollider.on('onCollisionEnter', this.onCollisionEnter, this);
     }
+    onDisable(){
+        this.playerCollider.off('onCollisionEnter');
+    }
 
     onCollisionEnter(event: ICollisionEvent) {
         const other = event.otherCollider;
