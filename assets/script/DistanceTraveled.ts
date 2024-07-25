@@ -1,6 +1,7 @@
 import { _decorator, CCFloat, CCInteger, Component, Label, Node } from 'cc';
 import { GameManager } from './GameManager';
 import { GameState } from './Enum';
+import { UIManager } from './UIManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('DistanceTraveled')
@@ -10,9 +11,6 @@ export class DistanceTraveled extends Component {
 
     @property(CCFloat)
     speed: number;
-
-    @property(Node)
-    buttonWin: Node;
 
     @property(CCInteger)
     maxMeter: number;
@@ -24,9 +22,9 @@ export class DistanceTraveled extends Component {
         // console.log(deltaTime);
         this.distanceMeter += Math.floor(deltaTime * this.speed * 10); // tính quãng đường đã đi được
         this.meter.string = this.distanceMeter.toString() + " m";
-        
+
         if (this.distanceMeter >= this.maxMeter) { //nếu đi được bằng maxMetter thì win
-            this.buttonWin.active = true;
+            UIManager.instance.win();
         }
     }
 }

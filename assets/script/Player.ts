@@ -1,6 +1,7 @@
-import { _decorator, CCFloat, Component, EventKeyboard, Input, input, KeyCode, SphereCollider, Vec2, Vec3 } from 'cc';
+import { _decorator, CCFloat, Component, EventKeyboard, EventTouch, Input, input, KeyCode, SphereCollider, Vec2, Vec3 } from 'cc';
 import { GameState, Layer } from './Enum';
 import { GameManager } from './GameManager';
+import { instance, JoystickDataType } from '../joystick/Joystick';
 const { ccclass, property } = _decorator;
 
 @ccclass('Player')
@@ -20,11 +21,21 @@ export class Player extends Component {
         input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
         input.on(Input.EventType.KEY_PRESSING, this.onKeyDown, this);
         input.on(Input.EventType.KEY_UP, this.onKeyUp, this);
+        instance.on(Input.EventType.TOUCH_MOVE, this.onTouchMove, this);
+        instance.on(Input.EventType.TOUCH_END, this.onTouchEnd, this);
     }
     onDisable() {
         input.off(Input.EventType.KEY_DOWN);
         input.off(Input.EventType.KEY_PRESSING);
         input.off(Input.EventType.KEY_UP);
+    }
+    onTouchMove(event: EventTouch, data: JoystickDataType) {
+        const moveDir = data.moveVec;
+        console.log(moveDir);
+        this.direction = new Vec2(moveDir.x, moveDir.y);
+    }
+    onTouchEnd(event: EventTouch, data: JoystickDataType) {
+        this.direction = Vec2.ZERO;
     }
     onKeyDown(event: EventKeyboard) {
         console.log(event.keyCode);

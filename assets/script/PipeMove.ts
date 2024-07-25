@@ -1,4 +1,4 @@
-import { _decorator, CCFloat, Component, instantiate, math, Node, Prefab, Quat, Vec2, Vec3 } from 'cc';
+import { _decorator, CCFloat, Component, instantiate, Node, Prefab, Quat, Vec3 } from 'cc';
 import { GameState } from './Enum';
 import { GameManager } from './GameManager';
 const { ccclass, property } = _decorator;
@@ -43,9 +43,12 @@ export class PipeMove extends Component {
         this.boulder = instantiate(this.boulderPrefab);
         this.boulder.children[0].setPosition(new Vec3(0, 0, Math.random() * 0.5 + 0.2));
 
-        let rotation = this.boulder.rotation;
-        Quat.fromEuler(rotation, 0, math.randomRange(0, 360), 0);
+        let rotation: Quat = new Quat();
+        Quat.fromEuler(rotation, 0, randomRange(0, 360), 0);
+        this.boulder.setRotation(rotation);
     }
 }
 
-
+export function randomRange(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
